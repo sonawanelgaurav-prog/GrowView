@@ -1,0 +1,8 @@
+{
+  "name": "GrowView – Festival & Business Poster Maker",
+  "description": "Create professional Marathi, Hindi, and English festival & business posters in minutes with automated business branding frames and instant high-res export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

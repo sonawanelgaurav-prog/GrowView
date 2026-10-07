@@ -1,0 +1,149 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Security & Helper Functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'sonawanel.gaurav@gmail.com' ||
+        request.auth.token.email == 'gunashreedigital@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function hasVideoEditorAccess() {
+      return isAdmin() || (
+        isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.permissions.video_editor_access == true
+      );
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['id', 'name', 'email', 'role', 'status']) &&
+        data.id is string && data.id.size() <= 128 &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+        data.email is string && data.email.size() > 0 && data.email.size() <= 150 &&
+        data.role in ['customer', 'admin'] &&
+        data.status in ['active', 'suspended'];
+    }
+
+    function isValidProfile(data) {
+      return data.keys().hasAll(['id', 'name', 'userId']) &&
+        data.id is string && data.id.size() <= 128 &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 150 &&
+        data.userId is string && data.userId.size() <= 128;
+    }
+
+    function isValidTemplate(data) {
+      return data.keys().hasAll(['id', 'title', 'category', 'authorId']) &&
+        data.id is string && data.id.size() <= 128 &&
+        data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+        data.category is string && data.category.size() <= 100 &&
+        data.authorId is string && data.authorId.size() <= 128;
+    }
+
+    function isValidActivityLog(data) {
+      return data.keys().hasAll(['id', 'userId', 'actionType', 'timestamp']) &&
+        data.id is string && data.id.size() <= 128 &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.actionType is string && data.actionType.size() <= 50 &&
+        data.timestamp is string && data.timestamp.size() <= 50;
+    }
+
+    // Connection test doc
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // Admin collection
+    match /admins/{adminId} {
+      allow get: if isSignedIn();
+      allow list, write: if isAdmin();
+    }
+
+    // User documents
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && isOwner(userId) && isValidId(userId) && isValidUser(incoming());
+      allow update: if isSignedIn() && (isOwner(userId) || isAdmin()) && isValidId(userId) && isValidUser(incoming());
+      allow delete: if isAdmin();
+
+      // Subcollection: Business Profiles
+      match /profiles/{profileId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+        allow create: if isSignedIn() && isOwner(userId) && isValidId(profileId) && isValidProfile(incoming());
+        allow update: if isSignedIn() && isOwner(userId) && isValidId(profileId) && isValidProfile(incoming());
+        allow delete: if isSignedIn() && (isOwner(userId) || isAdmin()) && isValidId(profileId);
+      }
+
+      // Subcollection: Activity Logs
+      match /activityLogs/{logId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+        allow create: if isSignedIn() && isOwner(userId) && isValidId(logId) && isValidActivityLog(incoming());
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // Public / Shared Templates
+    match /templates/{templateId} {
+      allow get, list: if true;
+      allow create: if isSignedIn() && isValidId(templateId) && isValidTemplate(incoming()) && (incoming().authorId == request.auth.uid || isAdmin());
+      allow update: if isSignedIn() && isValidId(templateId) && isValidTemplate(incoming()) && (existing().authorId == request.auth.uid || isAdmin());
+      allow delete: if isSignedIn() && (existing().authorId == request.auth.uid || isAdmin());
+    }
+
+    // Video Studio Projects (Restricted strictly to Authorized Video Editors & Admins)
+    match /videoProjects/{projectId} {
+      allow get, list: if hasVideoEditorAccess();
+      allow create, update: if hasVideoEditorAccess() && isValidId(projectId);
+      allow delete: if isAdmin() && isValidId(projectId);
+    }
+
+    // Video Studio Templates
+    match /videoTemplates/{templateId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if hasVideoEditorAccess() && isValidId(templateId);
+    }
+
+    // Manual UPI Payment Verification Records
+    match /payments/{paymentId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidId(paymentId) && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // Payment Settings (Configured by Admin, readable by all users)
+    match /settings/payment {
+      allow get: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

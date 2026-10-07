@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Ultra-smooth mobile momentum scrolling & GPU acceleration */
+.mobile-smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  transform: translateZ(0);
+}
+
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 360px;
+}
+
+/* Hide native scrollbars cleanly */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

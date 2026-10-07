@@ -1,0 +1,152 @@
+{
+  "subscriptions": {
+    "usr-admin-01": {
+      "id": "sub-admin-01",
+      "user_id": "usr-admin-01",
+      "plan_id": "business-yearly",
+      "plan_name": "Business Yearly (5 Brands)",
+      "billing_cycle": "yearly",
+      "payment_id": "pay_gv_master_verified",
+      "order_id": "order_gv_initial_master",
+      "subscription_status": "ACTIVE",
+      "start_date": "2026-09-17T11:18:52.278Z",
+      "expiry_date": "2027-09-17T11:18:52.278Z",
+      "business_limit": 5,
+      "team_member_limit": 5,
+      "poster_limit": -1,
+      "watermark_status": "NO_WATERMARK",
+      "monthly_free_clean_used": 0,
+      "current_month_key": "2026-09",
+      "created_at": "2026-09-17T11:18:52.278Z",
+      "updated_at": "2026-09-17T11:18:52.278Z"
+    },
+    "usr-cust-01": {
+      "id": "sub-cust-01",
+      "user_id": "usr-cust-01",
+      "plan_id": "free",
+      "plan_name": "Free Starter Plan",
+      "billing_cycle": "free",
+      "payment_id": "free_tier",
+      "order_id": "order_free_cust01",
+      "subscription_status": "ACTIVE",
+      "start_date": "2026-09-17T11:18:52.278Z",
+      "expiry_date": "2027-09-17T11:18:52.278Z",
+      "business_limit": 1,
+      "team_member_limit": 0,
+      "poster_limit": -1,
+      "watermark_status": "WATERMARK_AFTER_3_FREE",
+      "monthly_free_clean_used": 2,
+      "current_month_key": "2026-09",
+      "created_at": "2026-09-17T11:18:52.278Z",
+      "updated_at": "2026-09-17T11:18:52.278Z"
+    },
+    "usr-cust-02": {
+      "id": "sub-cust-02",
+      "user_id": "usr-cust-02",
+      "plan_id": "starter-monthly",
+      "plan_name": "Starter Monthly (1 Brand)",
+      "billing_cycle": "monthly",
+      "payment_id": "pay_UPI_rajmudra_99",
+      "order_id": "order_gv_rajmudra_99",
+      "subscription_status": "ACTIVE",
+      "start_date": "2026-09-17T11:18:52.278Z",
+      "expiry_date": "2026-10-17T11:18:52.278Z",
+      "business_limit": 1,
+      "team_member_limit": 0,
+      "poster_limit": -1,
+      "watermark_status": "NO_WATERMARK",
+      "monthly_free_clean_used": 0,
+      "current_month_key": "2026-09",
+      "created_at": "2026-09-17T11:18:52.278Z",
+      "updated_at": "2026-09-17T11:18:52.278Z"
+    },
+    "usr_guest_demo": {
+      "id": "sub_1789643972941_sq8f",
+      "user_id": "usr_guest_demo",
+      "plan_id": "starter-yearly",
+      "plan_name": "Starter Yearly",
+      "billing_cycle": "yearly",
+      "payment_id": "pay_test_razorpay_9988",
+      "order_id": "order_gv_1789643969703_zpjwe",
+      "subscription_status": "ACTIVE",
+      "start_date": "2026-09-17T11:19:32.941Z",
+      "expiry_date": "2027-09-17T11:19:32.941Z",
+      "business_limit": 1,
+      "team_member_limit": 0,
+      "poster_limit": -1,
+      "watermark_status": "NO_WATERMARK",
+      "monthly_free_clean_used": 0,
+      "current_month_key": "2026-09",
+      "created_at": "2026-09-17T11:19:32.941Z",
+      "updated_at": "2026-09-17T11:19:32.941Z"
+    }
+  },
+  "orders": [
+    {
+      "order_id": "order_gv_rajmudra_99",
+      "user_id": "usr-cust-02",
+      "user_email": "rajmudra.realty@gmail.com",
+      "plan_id": "starter-monthly",
+      "plan_name": "Starter Monthly (1 Brand)",
+      "amount": 99,
+      "currency": "INR",
+      "status": "paid",
+      "payment_id": "pay_UPI_rajmudra_99",
+      "payment_method": "upi",
+      "created_at": "2026-09-15T11:18:52.278Z",
+      "verified_at": "2026-09-15T11:18:52.278Z"
+    },
+    {
+      "order_id": "order_gv_1789643969703_zpjwe",
+      "user_id": "usr_guest_demo",
+      "user_email": "demo@growview.in",
+      "plan_id": "starter-yearly",
+      "plan_name": "Starter Yearly",
+      "amount": 599,
+      "currency": "INR",
+      "status": "paid",
+      "created_at": "2026-09-17T11:19:29.703Z",
+      "payment_id": "pay_test_razorpay_9988",
+      "payment_method": "upi",
+      "verified_at": "2026-09-17T11:19:32.941Z"
+    }
+  ],
+  "teamMembers": [
+    {
+      "id": "tm-01",
+      "owner_id": "usr-admin-01",
+      "owner_email": "sonawanel.gaurav@gmail.com",
+      "owner_business_name": "GrowView Official Studio",
+      "member_email": "staff1@growview.com",
+      "member_name": "अमित साळुंखे (Staff)",
+      "role": "team_member",
+      "status": "active",
+      "assigned_business_ids": [
+        "profile-1"
+      ],
+      "created_at": "2026-09-17T11:18:52.278Z",
+      "updated_at": "2026-09-17T11:18:52.278Z"
+    }
+  ],
+  "teamLeads": [
+    {
+      "id": "lead-01",
+      "name": "विजयराव देशमुख",
+      "company_name": "देशमुख मल्टिस्टेट को-ऑप बँक",
+      "mobile_number": "+91 98224 88771",
+      "email": "deshmukh.bank@gmail.com",
+      "team_members_count": "15-20",
+      "businesses_count": "8",
+      "requirements": "१५ शाखा व्यवस्थापकांसाठी दररोजचे बँकिंग व सण पोस्टर्स तयार करणे.",
+      "message": "आम्हाला संपूर्ण टीमसाठी ॲक्सेस हवा आहे. कृपया लवकरात लवकर संपर्क करा.",
+      "status": "new",
+      "created_at": "2026-09-17T05:18:52.278Z"
+    }
+  ],
+  "usageStats": {
+    "totalExports": 147,
+    "cleanExports": 102,
+    "watermarkedExports": 45,
+    "premiumExports": 87
+  }
+}

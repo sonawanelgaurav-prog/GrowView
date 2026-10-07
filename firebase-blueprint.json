@@ -1,0 +1,153 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile with business info and subscription state",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 25 },
+        "businessName": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["customer", "admin"] },
+        "adminRole": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "subscriptionPlan": { "type": "string", "maxLength": 50 },
+        "coins": { "type": "number" },
+        "totalDownloads": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "email", "role", "status"]
+    },
+    "businessProfile": {
+      "title": "BusinessProfile",
+      "description": "Business branding frame settings for generating posters",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "ownerName": { "type": "string", "maxLength": 150 },
+        "designation": { "type": "string", "maxLength": 100 },
+        "logoUrl": { "type": "string", "maxLength": 1000 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 150 },
+        "website": { "type": "string", "maxLength": 200 },
+        "address": { "type": "string", "maxLength": 300 },
+        "socialHandle": { "type": "string", "maxLength": 100 },
+        "tagline": { "type": "string", "maxLength": 250 },
+        "brandColor": { "type": "string", "maxLength": 50 },
+        "isDefault": { "type": "boolean" },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "userId"]
+    },
+    "posterTemplate": {
+      "title": "PosterTemplate",
+      "description": "Custom or shared poster templates created by users or admins",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "maxLength": 100 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "isCustomUpload": { "type": "boolean" },
+        "isPublished": { "type": "boolean" },
+        "isPremium": { "type": "boolean" },
+        "headline": { "type": "string", "maxLength": 500 },
+        "subtext": { "type": "string", "maxLength": 500 },
+        "aspectRatio": { "type": "string", "enum": ["1:1", "4:5", "9:16"] },
+        "downloadCount": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "title", "category", "authorId"]
+    },
+    "activityLog": {
+      "title": "ActivityLog",
+      "description": "Audit and activity log of poster downloads and user actions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userEmail": { "type": "string", "maxLength": 150 },
+        "actionType": { "type": "string", "maxLength": 50 },
+        "actionTitle": { "type": "string", "maxLength": 200 },
+        "details": { "type": "string", "maxLength": 500 },
+        "timestamp": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "actionType", "timestamp"]
+    },
+    "paymentVerification": {
+      "title": "PaymentVerification",
+      "description": "Manual UPI payment verification submission and admin approval records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 100 },
+        "userEmail": { "type": "string", "maxLength": 150 },
+        "userPhone": { "type": "string", "maxLength": 30 },
+        "businessName": { "type": "string", "maxLength": 150 },
+        "planId": { "type": "string", "maxLength": 50 },
+        "planName": { "type": "string", "maxLength": 100 },
+        "billingCycle": { "type": "string", "enum": ["monthly", "yearly", "free", "custom"] },
+        "amount": { "type": "number" },
+        "transactionId": { "type": "string", "maxLength": 100 },
+        "screenshotUrl": { "type": "string", "maxLength": 500000 },
+        "paymentDate": { "type": "string", "maxLength": 50 },
+        "submittedAt": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "PENDING", "APPROVED", "REJECTED"] },
+        "verifiedAt": { "type": "string", "maxLength": 50 },
+        "verifiedBy": { "type": "string", "maxLength": 150 },
+        "rejectionReason": { "type": "string", "maxLength": 500 },
+        "adminNotes": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "userId", "planId", "amount", "transactionId", "status", "submittedAt"]
+    },
+    "adminPaymentSettings": {
+      "title": "AdminPaymentSettings",
+      "description": "Admin configured manual UPI payment details and QR code",
+      "type": "object",
+      "properties": {
+        "upiId": { "type": "string", "maxLength": 100 },
+        "upiName": { "type": "string", "maxLength": 150 },
+        "qrCodeUrl": { "type": "string", "maxLength": 500000 },
+        "instructions": { "type": "string", "maxLength": 1000 },
+        "supportPhone": { "type": "string", "maxLength": 30 },
+        "supportEmail": { "type": "string", "maxLength": 150 },
+        "isEnabled": { "type": "boolean" },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["upiId", "upiName", "isEnabled"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "Main user document containing profile and subscription state"
+    },
+    "/users/{userId}/profiles/{profileId}": {
+      "schema": "businessProfile",
+      "description": "Subcollection of business branding profiles for the user"
+    },
+    "/users/{userId}/activityLogs/{logId}": {
+      "schema": "activityLog",
+      "description": "Subcollection of audit activity logs for the user"
+    },
+    "/templates/{templateId}": {
+      "schema": "posterTemplate",
+      "description": "Shared and custom poster templates"
+    },
+    "/payments/{paymentId}": {
+      "schema": "paymentVerification",
+      "description": "Customer manual payment verification requests and approval history"
+    },
+    "/settings/payment": {
+      "schema": "adminPaymentSettings",
+      "description": "Admin configured UPI payment settings and QR code"
+    }
+  }
+}
